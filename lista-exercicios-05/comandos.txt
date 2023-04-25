@@ -15,6 +15,7 @@ COMANDO DO ITEM 2
 create view item_2 as 
 select concat(e.first_name, ' ', e.last_name) as Nome, format(max(s.salary) * 12, 2, 'de_DE') as Custo_anual from employees as e
 natural join salaries as s
+inner join dept_emp as de on (e.emp_no = de.emp_no)
 group by Nome
 
 
@@ -93,22 +94,6 @@ group by e.emp_no having percentual >= 10
 
 
 COMANDO DA STORED PROCEDURE POR ENQUANTO
-
-
-select dept_name into @departamento from departments where dept_no = 'ti';
-select 
-	Departamento,
-	count(*) as Total_pessoas,
-    custo_anual_total_departamento,
-    max(custo_anual) as Custo_funcionario_mais_caro,
-    (select nome from item_4 where departamento = @departamento and custo_anual = max(it4.custo_anual)) as Nome
-from item_4 as it4
-where departamento = @departamento;
-
-
-segundo comando da procedure e é o que vai ficar
-
-
 
 
 DELIMITER $$
