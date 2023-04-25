@@ -1,7 +1,7 @@
 COMANDO DO ITEM 1
 
 create view item_1 as
-select d.dept_name as Departamento, concat('€$ ', format(sum((s.salary * 12)), 2, 'de_DE')) as Custo_anual_funcionarios  from employees as e
+select d.dept_name as Departamento, year(s.to_date) as Ano, concat('€$ ', format(sum((s.salary * 12)), 2, 'de_DE')) as Custo_anual_funcionarios  from employees as e
 natural join dept_emp as de
 natural join departments as d
 inner join salaries as s on (s.emp_no = e.emp_no)
