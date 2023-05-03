@@ -1,0 +1,20 @@
+create view custo_anual_func  as select concat(`e`.`first_name`,' ',`e`.`last_name`) AS `Nome`,format(max(`s`.`salary`) * 12,2,'de_DE') AS `Custo_anual` from ((`employees`.`employees` `e` join `employees`.`salaries` `s` on(`e`.`emp_no` = `s`.`emp_no`)) join `employees`.`dept_emp` `de` on(`e`.`emp_no` = `de`.`emp_no`)) group by concat(`e`.`first_name`,' ',`e`.`last_name`)
+
+
+
+create view custo_anual_func_por_departamento  as select concat(`e`.`first_name`,' ',`e`.`last_name`) AS `NomeFuncionario`,`d`.`dept_name` AS `NomeDepartamento`,format(`s`.`salary` * 12,2) AS `CustoAnualFuncionario`,format(sum(`s`.`salary`) over ( partition by `de`.`dept_no`) * 12,2) AS `CustoTotalDepartamento`,concat(format(`s`.`salary` * 12 / sum(`s`.`salary`) over ( partition by `de`.`dept_no`) * 100,2),'%') AS `PercentualCustoDepartamento` from (((`employees`.`employees` `e` join `employees`.`salaries` `s` on(`e`.`emp_no` = `s`.`emp_no`)) join `employees`.`dept_emp` `de` on(`e`.`emp_no` = `de`.`emp_no`)) join `employees`.`departments` `d` on(`de`.`dept_no` = `d`.`dept_no`))
+
+
+
+create view as gasto_dept_ano select `D`.`dept_name` AS `NOME_DEPARTAMENTO`,year(`A`.`from_date`) AS `ANO`,sum(`A`.`salary`) AS `SOMA_SALARIO` from (((`employees`.`salaries` `A` join `employees`.`employees` `B` on(`A`.`emp_no` = `B`.`emp_no`)) join `employees`.`dept_emp` `C` on(`A`.`emp_no` = `C`.`emp_no`)) join `employees`.`departments` `D` on(`C`.`dept_no` = `D`.`dept_no`)) group by `C`.`dept_no`,year(`A`.`from_date`)
+
+
+
+create view  valor_total_anual_por_departamento as select `d`.`dept_name` AS `NomeDepartamento`,format(sum(`s`.`salary`) * 12,2) AS `ValorTotalAnual` from ((`employees`.`departments` `d` join `employees`.`dept_emp` `de` on(`d`.`dept_no` = `de`.`dept_no`)) join `employees`.`salaries` `s` on(`de`.`emp_no` = `s`.`emp_no`)) group by `d`.`dept_name`
+
+
+
+SELECT NomeFuncionario,PercentualCustoDepartamento
+FROM custo_anual_func_por_departamento 
+WHERE PercentualCustoDepartamento >= '0.01%' AND 
+PercentualCustoDepartamento <= '0.1%'
