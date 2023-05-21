@@ -57,15 +57,15 @@ group by Nome
 -- item 3
 
 
-create view item_3 as
-select dados.Departamento, format(sum(dados.salary * 12), 2, 'de_DE') as Custo_total_anual
-from (select distinct concat(e.first_name, ' ', e.last_name) as Nome, d.dept_name as Departamento, max(s.salary) as salary from departments as d
-inner join dept_emp as de on (d.dept_no = de.dept_no)
-inner join dept_manager as dm on (d.dept_no = dm.dept_no)
-inner join employees as e on (e.emp_no = dm.emp_no or e.emp_no = de.emp_no)
-inner join salaries as s on (e.emp_no = s.emp_no)
-group by e.emp_no) as dados
-group by dados.Departamento;
+CREATE VIEW item_3 AS
+	SELECT	ED.dept_no AS id_departamento,
+			ED.dept_name AS departamento,
+			SUM(ES.salary) AS gasto_ano_dept,
+			EXTRACT(YEAR FROM (ES.from_date)) AS ano
+	FROM employees.salaries ES
+		INNER JOIN employees.dept_emp EDE ON (ES.emp_no = EDE.emp_no)
+		INNER JOIN employees.departments ED ON (EDE.dept_no = ED.dept_no)
+	GROUP BY id_departamento,ano;
 
 
 
