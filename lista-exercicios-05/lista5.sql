@@ -131,18 +131,23 @@ group by e.emp_no having percentual >= 10;
 
 
 
-DELIMITER $$
-CREATE PROCEDURE exercicio_3_procedure (IN cod_departamento varchar(2))
-BEGIN
-set @departamento = null;
-select dept_name into @departamento from departments where dept_no = cod_departamento;
-select 
-Departamento,
-(select count(*) from item_4 where departamento = @departamento) as Total_pessoas,
-Custo_anual_total_departamento,
-format(custo_anual, 2, 'de_DE') as Custo_funcionario_mais_caro,
-Nome
-from item_4 where departamento = @departamento order by custo_anual desc limit 1;
 
-END $$
-DELIMITER ;
+-- exercicio 3
+
+DELIMITER $$
+
+CREATE PROCEDURE consultar_departamento (IN p_dept_no CHAR(4))
+BEGIN
+	SELECT 	id_departamento,
+			departamento,
+			ano,
+			COUNT(id_func) AS qtd_func,
+			gasto_ano_dept AS gasto_dept,
+			MAX(salario_ano) AS maior_salario
+	FROM gasto_percentual_func
+		WHERE p_dept_no = id_departamento 
+	GROUP BY 1, 3
+	ORDER BY 3 ASC;
+END $$
+
+DELIMITER ;
