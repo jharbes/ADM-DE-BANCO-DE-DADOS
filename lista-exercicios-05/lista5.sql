@@ -57,7 +57,7 @@ group by Nome
 -- item 3
 
 
-CREATE VIEW item_3 AS
+CREATE VIEW item3 AS
 	SELECT	ED.dept_no AS id_departamento,
 			ED.dept_name AS departamento,
 			SUM(ES.salary) AS gasto_ano_dept,
@@ -71,20 +71,26 @@ CREATE VIEW item_3 AS
 
 -- item 4
 
+CREATE VIEW custo_func_ano AS
+	SELECT EE.emp_no AS id_func,
+			DE.dept_no AS id_departamento,
+			CONCAT(EE.first_name, " ", EE.last_name) AS nome_func,
+			ES.salary AS salario_ano,
+			EXTRACT(YEAR FROM (ES.from_date)) AS ano
+	FROM employees.employees EE
+		INNER JOIN employees.salaries ES ON (EE.emp_no = ES.emp_no)
+		INNER JOIN employees.dept_emp DE ON (ES.emp_no = DE.emp_no)
 
-create view item_4 as
-select distinct 
-concat(e.first_name, ' ', e.last_name) as Nome, 
-d.dept_name as Departamento, 
-max(s.salary) * 12 as Custo_anual,
-(select Custo_total_anual from item_3 where Departamento = d.dept_name) as Custo_anual_total_departamento,
-format((((max(s.salary) * 12) / (select Custo_total_anual from item_3 where Departamento = d.dept_name)) * 100), '%') as Percentual
-from departments as d
-inner join dept_emp as de on (d.dept_no = de.dept_no)
-inner join dept_manager as dm on (d.dept_no = dm.dept_no)
-inner join employees as e on (e.emp_no = dm.emp_no or e.emp_no = de.emp_no)
-inner join salaries as s on (e.emp_no = s.emp_no)
-group by e.emp_no;
+CREATE VIEW gasto_percentual_func AS
+	SELECT 	id_func,
+			nome_func,
+			salario_ano,
+			departamento,
+			gasto_ano_dept,
+			custo_func_ano.ano,
+			FORMAT((salario_ano/gasto_ano_dept)*100,3) AS gasto_perc_do_dept
+	FROM custo_func_ano
+	INNER JOIN gasto_anual_dept ON ((custo_func_ano.id_departamento = gasto_anual_dept.id_departamento) AND (custo_func_ano.ano = gasto_anual_dept.ano))
 
 
 
