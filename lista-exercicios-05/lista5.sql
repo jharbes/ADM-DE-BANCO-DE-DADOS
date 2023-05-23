@@ -97,37 +97,17 @@ CREATE VIEW gasto_percentual_func AS
 -- item 5
 
 
-create view item_5 as
-select distinct 
-concat(e.first_name, ' ', e.last_name) as Nome, 
-d.dept_name as Departamento, 
-max(s.salary) * 12 as Custo_anual,
-(select Custo_total_anual from item_3 where Departamento = d.dept_name) as Custo_total_departamento,
-format((((max(s.salary) * 12) / (select Custo_total_anual from item_3 where Departamento = d.dept_name)) * 100), '%') as Percentual
-from departments as d
-inner join dept_emp as de on (d.dept_no = de.dept_no)
-inner join dept_manager as dm on (d.dept_no = dm.dept_no)
-inner join employees as e on (e.emp_no = dm.emp_no or e.emp_no = de.emp_no)
-inner join salaries as s on (e.emp_no = s.emp_no)
-group by e.emp_no having percentual <= 10;
+SELECT *
+FROM employees.gasto_percentual_func
+	WHERE (0.01 >= gasto_perc_do_dept <= 0.1);
 
 
 -- item 6
 
 
-create view item_6 as
-select distinct 
-concat(e.first_name, ' ', e.last_name) as Nome, 
-d.dept_name as Departamento, 
-max(s.salary) * 12 as Custo_anual,
-(select Custo_total_anual from item_3 where Departamento = d.dept_name) as Custo_total_departamento,
-format((((max(s.salary) * 12) / (select Custo_total_anual from item_3 where Departamento = d.dept_name)) * 100), '%') as Percentual
-from departments as d
-inner join dept_emp as de on (d.dept_no = de.dept_no)
-inner join dept_manager as dm on (d.dept_no = dm.dept_no)
-inner join employees as e on (e.emp_no = dm.emp_no or e.emp_no = de.emp_no)
-inner join salaries as s on (e.emp_no = s.emp_no)
-group by e.emp_no having percentual >= 10;
+SELECT *
+FROM employees.gasto_percentual_func
+	WHERE (gasto_perc_do_dept > 0.1);
 
 
 
