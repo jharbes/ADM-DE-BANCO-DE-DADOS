@@ -102,7 +102,7 @@ COMMENT "Tabela que armazena as pessoas";
 CREATE TABLE IF NOT EXISTS pessoas.contato (
 	id_contato INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     id_pessoa INT NOT NULL,
-    email VARCHAR(255) UNIQUE,
+    email VARCHAR(191) UNIQUE,
     telefone VARCHAR(11),
     endereco VARCHAR(255),
 	FOREIGN KEY (id_pessoa) REFERENCES pessoas(id_pessoa)
