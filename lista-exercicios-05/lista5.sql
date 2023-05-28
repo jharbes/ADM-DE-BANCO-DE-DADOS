@@ -56,32 +56,56 @@ group by nome;
 
 -- item 3
 
+CREATE table gasto_anual_dept AS
+select `ed`.`dept_no` AS `id_departamento`,
+		`ed`.`dept_name` AS `departamento`,
+		sum(`es`.`salary`) AS `gasto_ano_dept`,
+		extract(year from `es`.`from_date`) AS `ano`
+from ((`employees`.`salaries` `es` 
+	join `employees`.`dept_emp` `ede` on((`es`.`emp_no` = `ede`.`emp_no`)))
+    join `employees`.`departments` `ed` on((`ede`.`dept_no` = `ed`.`dept_no`)))
+group by `ed`.`dept_no`,extract(year from `es`.`from_date`);
+
 
 CREATE VIEW item3 AS
-	SELECT	ED.dept_no AS id_departamento,
-			ED.dept_name AS departamento,
-			SUM(ES.salary) AS gasto_ano_dept,
-			EXTRACT(YEAR FROM (ES.from_date)) AS ano
-	FROM employees.salaries ES
-		INNER JOIN employees.dept_emp EDE ON (ES.emp_no = EDE.emp_no)
-		INNER JOIN employees.departments ED ON (EDE.dept_no = ED.dept_no)
-	GROUP BY id_departamento,ano;
+select `ed`.`dept_no` AS `id_departamento`,`ed`.`dept_name` AS 
+`departamento`,concat('US$ ',format(sum(`es`.`salary`),2,'de_DE')) AS 
+`gasto_ano_dept`,extract(year from `es`.`from_date`) AS `ano` from
+ ((`employees`.`salaries` `es` join `employees`.`dept_emp` `ede` 
+ on((`es`.`emp_no` = `ede`.`emp_no`))) join `employees`.`departments` `ed` 
+ on((`ede`.`dept_no` = `ed`.`dept_no`)))
+ group by `ed`.`dept_no`,extract(year from `es`.`from_date`);
 
 
 
 -- item 4
 
-CREATE VIEW custo_func_ano AS
-	SELECT EE.emp_no AS id_func,
-			DE.dept_no AS id_departamento,
-			CONCAT(EE.first_name, " ", EE.last_name) AS nome_func,
-			ES.salary AS salario_ano,
-			EXTRACT(YEAR FROM (ES.from_date)) AS ano
-	FROM employees.employees EE
-		INNER JOIN employees.salaries ES ON (EE.emp_no = ES.emp_no)
-		INNER JOIN employees.dept_emp DE ON (ES.emp_no = DE.emp_no)
+		
+create table custo_func_ano AS
+SELECT EE.emp_no AS id_func,
+	DE.dept_no AS id_departamento,
+	CONCAT(EE.first_name, " ", EE.last_name) AS nome_func,
+	ES.salary AS salario_ano,
+	EXTRACT(YEAR FROM (ES.from_date)) AS ano
+FROM employees.employees EE
+	INNER JOIN employees.salaries ES ON (EE.emp_no=ES.emp_no)
+	INNER JOIN employees.dept_emp DE ON (ES.emp_no=DE.emp_no);
+	
+	
+create view item4_a AS
+SELECT EE.emp_no AS id_func,
+	DE.dept_no AS id_departamento,
+	CONCAT(EE.first_name, " ", EE.last_name) AS nome_func,
+	concat('US$ ',format(ES.salary,2,'de_DE')) AS salario_ano,
+	EXTRACT(YEAR FROM (ES.from_date)) AS ano
+FROM employees.employees EE
+	INNER JOIN employees.salaries ES ON (EE.emp_no=ES.emp_no)
+	INNER JOIN employees.dept_emp DE ON (ES.emp_no=DE.emp_no);
+	
 
-CREATE VIEW gasto_percentual_func AS
+
+
+CREATE table gasto_percentual_func AS
 	SELECT 	id_func,
 			nome_func,
 			salario_ano,
@@ -89,8 +113,20 @@ CREATE VIEW gasto_percentual_func AS
 			gasto_ano_dept,
 			custo_func_ano.ano,
 			FORMAT((salario_ano/gasto_ano_dept)*100,3) AS gasto_perc_do_dept
-	FROM custo_func_ano
-	INNER JOIN gasto_anual_dept ON ((custo_func_ano.id_departamento = gasto_anual_dept.id_departamento) AND (custo_func_ano.ano = gasto_anual_dept.ano))
+FROM custo_func_ano
+INNER JOIN gasto_anual_dept ON ((custo_func_ano.id_departamento = gasto_anual_dept.id_departamento) AND (custo_func_ano.ano = gasto_anual_dept.ano));
+
+
+CREATE VIEW item_4b AS
+	SELECT 	id_func,
+			nome_func,
+			salario_ano,
+			departamento,
+			gasto_ano_dept,
+			custo_func_ano.ano,
+			FORMAT((salario_ano/gasto_ano_dept)*100,3) AS gasto_perc_do_dept
+FROM custo_func_ano
+INNER JOIN gasto_anual_dept ON ((custo_func_ano.id_departamento = gasto_anual_dept.id_departamento) AND (custo_func_ano.ano = gasto_anual_dept.ano));
 
 
 
