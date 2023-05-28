@@ -1,0 +1,48 @@
+package DAOMARIADB;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JOptionPane;
+
+public class CalculadoraDAOMARIADB {
+
+	public static boolean gravarHistorico() {
+		Statement stmt = Conexao.conect();
+		JOptionPane.showMessageDialog(null, stmt);
+		boolean retorno = false;
+		
+		/*String query = "select exists(select login, senha from administrador where login = '" + login + "' and senha = '" + senha + "') as login";
+		
+		try {
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				retorno = rs.getBoolean("login");
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Erro ao carregar os dados do banco de dados. \nDetalhes: "+ e.getMessage());
+		}*/
+		
+		return retorno;
+	}
+	
+	public static boolean inserirHistorico(String operacao) {
+		int last_insert_id = 0;
+		Statement stmt = Conexao.conect();
+		String query = "insert into historico (operacao, idUser) "
+				+ "values ('" + operacao + "'," + " 1)";
+		try {
+			last_insert_id = stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+			if(last_insert_id != 0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Erro ao gravar histórico no banco de dados. \nDetalhes: "+ e.getMessage());
+			return false;
+		}
+	}
+	
+}

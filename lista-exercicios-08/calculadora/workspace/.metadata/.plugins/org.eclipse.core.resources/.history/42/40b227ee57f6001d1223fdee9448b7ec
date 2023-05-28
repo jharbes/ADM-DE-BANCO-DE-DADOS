@@ -1,0 +1,87 @@
+package fragments;
+
+import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import model.Usuario;
+
+@SuppressWarnings("serial")
+public class MeusDados_fragment extends javax.swing.JInternalFrame{
+	
+	private javax.swing.JLabel lblNome;
+	private JTextField nomeField;
+	
+	private javax.swing.JLabel lblEmail;
+	private JTextField emailField;
+	
+	private javax.swing.JLabel lblTelefone;
+	private JTextField telefoneField;
+	
+	private JButton btnSalvar;
+	private JButton btnBuscar;
+	
+	public MeusDados_fragment(Usuario usuario) {
+    	this.build(usuario);
+    	this.events();
+    }
+
+	private void build(Usuario usuario) {
+		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
+        setBorder(null);
+        
+        lblNome = new javax.swing.JLabel("Nome");
+        nomeField = new JTextField(22);
+        nomeField.setText(usuario.nome);
+        
+        lblEmail = new javax.swing.JLabel("E-mail");
+        emailField = new JTextField(22);
+        emailField.setText(usuario.email);
+        
+        lblTelefone = new javax.swing.JLabel("Telefone");
+        telefoneField = new JTextField(22);
+        telefoneField.setText(usuario.telefone);
+        
+        btnBuscar = new JButton("Buscar");
+        btnBuscar.setVerticalAlignment(SwingConstants.BOTTOM);
+        btnSalvar = new JButton("Salvar");
+        btnSalvar.setVerticalAlignment(SwingConstants.BOTTOM);
+        
+        
+        JPanel panel = new JPanel();
+        
+        panel.add(lblNome);
+        panel.add(nomeField);
+        
+        panel.add(lblEmail);
+        panel.add(emailField);
+        
+        panel.add(lblTelefone);
+        panel.add(telefoneField);
+
+        panel.add(btnBuscar);
+        panel.add(btnSalvar);
+        
+        add(panel);
+        
+        setSize(285, 430);
+        
+        setVisible(true);
+	}
+
+	private void events() {
+		this.btnBuscar.addActionListener(this::manterDados);
+	}
+	
+	public void manterDados(ActionEvent e) {
+    	Usuario usuario = Usuario.buscarDados(1);
+    	
+    	this.nomeField.setText(usuario.nome);
+    	this.emailField.setText(usuario.email);
+    	this.telefoneField.setText(usuario.telefone);
+    }
+}

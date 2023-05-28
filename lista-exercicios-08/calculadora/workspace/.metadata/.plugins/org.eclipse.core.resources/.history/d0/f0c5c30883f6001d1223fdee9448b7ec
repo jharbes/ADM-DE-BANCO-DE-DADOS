@@ -1,0 +1,62 @@
+package model;
+
+import java.text.DecimalFormat;
+
+import expression.*;
+
+import DAOMARIADB.*;
+
+import fragments.BaseDeDados_fragment;
+
+public class Calculadora {
+
+    public String concat(String btnValue, String resultValue) {
+    	return resultValue + btnValue;
+    }
+
+	public String addOperacao(String btnValue, String resultValue) {
+		String s = resultValue, operations = "+-*/.";
+		
+		return (operations.indexOf(s.charAt(s.length() - 1)) < 0) ? s + btnValue : s;
+	}
+	
+	public String addPi(String resultValue) {
+		String s = resultValue, operations = "+-*/";
+		
+		if(resultValue.isEmpty()) return "3.14";
+		
+		return (operations.indexOf(s.charAt(s.length() - 1)) < 0) ? s : s  + "3.14";
+	}
+	
+	public String addPonto(String resultValue) {
+		boolean isset = false;
+		String operations = "+-*/", aResultValue [] = resultValue.split("");
+		
+		if(operations.indexOf(resultValue.charAt(resultValue.length() - 1)) >= 0) return resultValue;
+		
+		for(String character : aResultValue) {
+			if(character.equals("."))
+				isset = true;
+			else if(operations.indexOf(character) >= 0)
+				isset = false;
+		}
+		
+		return isset ? resultValue : resultValue + ".";
+	}
+
+	public String calcularResultado(String equacao, int idUser) {
+		String operations = "+-*/", resultadoEquacao;
+				
+		if(operations.indexOf(equacao.charAt(equacao.length() - 1)) >= 0) {
+			equacao = equacao.substring(0, equacao.length() - 1);
+		}
+		
+		resultadoEquacao = Calculadora.arredondar(CalculateExpression.calcularExpressao(equacao)).replace(",", ".");
+		
+		return CalculadoraDAOMARIADB.inserirHistorico(equacao, idUser) ? resultadoEquacao : "erro";
+	}
+	
+	private static String arredondar(Double resultado) {
+		return new DecimalFormat("#,##0.00").format(resultado);
+	}
+}

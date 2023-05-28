@@ -1,0 +1,332 @@
+package fragments;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+
+import model.Calculadora;
+import model.Usuario;
+
+@SuppressWarnings("serial")
+public class Calcular_fragment extends javax.swing.JInternalFrame{
+	
+	private JTextField resultadoField;
+    private JButton n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, 
+    				somarButton, subtrairButton, multiplicarButton, 
+    				dividirButton, resultButton, cButton, piButton, pontoButton, scienceButton, ceButton;
+    public static final int HEIGHT = 64;
+    public static final int WIDTH = 64;
+    private Calculadora calculadora = new Calculadora();
+    
+    private Usuario usuario;
+    
+    private int baseBuscaDados;
+    
+    public boolean resultset = false;
+    
+    public Calcular_fragment(int baseBuscaDados) {
+    	this.baseBuscaDados = baseBuscaDados;
+    	this.build();
+    	this.events();
+    }
+    
+    public void build() {
+    	((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
+        setBorder(null);
+        
+        usuario = Usuario.buscarDadosUsuario(1, this.baseBuscaDados);
+    	
+    	resultadoField = new JTextField();
+    	resultadoField.setBackground(new Color(243, 243, 243));
+    	resultadoField.setBorder(null);
+        resultadoField.setEditable(false);
+        resultadoField.setHorizontalAlignment(SwingConstants.CENTER);
+        resultadoField.setFont(new Font("Dialog", Font.BOLD, 20));
+        resultadoField.setPreferredSize(new Dimension(270, 90));
+        
+        
+        cButton = new JButton("C");
+        cButton.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonGeneralStyle(cButton);
+
+        piButton = new JButton("π");
+        piButton.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonGeneralStyle(piButton);
+        
+        ceButton = new JButton("CE");
+        ceButton.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonGeneralStyle(ceButton);
+        
+        dividirButton = new JButton("/");
+        dividirButton.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonOperationsStyle(dividirButton);
+        
+        
+        
+        n7 = new JButton("7");
+        n7.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonNumbersStyle(n7);
+        
+        n8 = new JButton("8");
+        n8.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonNumbersStyle(n8);
+        
+        n9 = new JButton("9");
+        n9.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonNumbersStyle(n9);
+        
+        multiplicarButton = new JButton("*");
+        multiplicarButton.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonOperationsStyle(multiplicarButton);
+        
+        
+        
+        n4 = new JButton("4");
+        n4.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonNumbersStyle(n4);
+        
+        n5 = new JButton("5");
+        n5.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonNumbersStyle(n5);
+        
+        n6 = new JButton("6");
+        n6.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonNumbersStyle(n6);
+        
+        subtrairButton = new JButton("-");
+        subtrairButton.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonOperationsStyle(subtrairButton);
+        
+        
+        
+        n1 = new JButton("1");
+        n1.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonNumbersStyle(n1);
+        
+        n2 = new JButton("2");
+        n2.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonNumbersStyle(n2);
+        
+        n3 = new JButton("3");
+        n3.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonNumbersStyle(n3);
+        
+        somarButton = new JButton("+");
+        somarButton.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonOperationsStyle(somarButton);
+        
+        
+        
+        scienceButton  = new JButton("🖩");
+        scienceButton.setFont(new Font("Dialog", Font.BOLD, 40));
+        scienceButton.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonGeneralStyle(scienceButton);
+        
+        n0 = new JButton("0");
+        n0.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonNumbersStyle(n0);
+        
+        pontoButton = new JButton(".");
+        pontoButton.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.buttonGeneralStyle(pontoButton);
+        
+        resultButton = new JButton("=");
+        resultButton.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        resultButton.setBorder(null);
+        resultButton.setBackground(new Color(0, 90, 158));
+        resultButton.setFont(new Font("Dialog", Font.LAYOUT_LEFT_TO_RIGHT, 17));
+        resultButton.setForeground(new Color(255, 255, 255));
+        
+        LineBorder lineBorder = new LineBorder(new Color(225, 225, 225), 1, true);
+        button.setBorder(lineBorder);
+
+
+        JPanel panel = new JPanel();
+        
+        panel.add(resultadoField);
+        panel.add(cButton);
+        panel.add(piButton);
+        panel.add(ceButton);
+        panel.add(dividirButton);
+        
+        panel.add(n7);
+        panel.add(n8);
+        panel.add(n9);
+        panel.add(multiplicarButton);
+        
+        panel.add(n4);
+        panel.add(n5);
+        panel.add(n6);
+        panel.add(subtrairButton);
+        
+        panel.add(n1);
+        panel.add(n2);
+        panel.add(n3);
+        panel.add(somarButton);
+        
+        panel.add(scienceButton);
+        panel.add(n0);
+        panel.add(pontoButton);
+        panel.add(resultButton);
+        
+        panel.setBackground(new Color(243, 243, 243));
+        
+        add(panel);
+        
+        setSize(285, 460);
+        
+        setVisible(true);
+    }
+    
+    public void events() {
+    	this.n7.addActionListener(this::addNumber);
+    	this.n8.addActionListener(this::addNumber);
+    	this.n9.addActionListener(this::addNumber);
+    	this.n4.addActionListener(this::addNumber);
+    	this.n5.addActionListener(this::addNumber);
+    	this.n6.addActionListener(this::addNumber);
+    	this.n1.addActionListener(this::addNumber);
+    	this.n2.addActionListener(this::addNumber);
+    	this.n3.addActionListener(this::addNumber);
+    	this.n0.addActionListener(this::addNumber);
+    	
+    	this.cButton.addActionListener(this::clear);
+    	
+    	this.dividirButton.addActionListener(this::addOperation);
+    	this.subtrairButton.addActionListener(this::addOperation);
+    	this.somarButton.addActionListener(this::addOperation);
+    	this.multiplicarButton.addActionListener(this::addOperation);
+    	
+    	this.ceButton.addActionListener(this::cancelEntry);
+    	
+    	this.piButton.addActionListener(this::addPiValue);
+    	
+    	this.scienceButton.addActionListener(this::scienceCalculator);
+    	
+    	this.pontoButton.addActionListener(this::addPonto);
+    	
+    	this.resultButton.addActionListener(this::calcularResultado);
+    }
+    
+    private void buttonNumbersStyle(JButton button) {
+    	button.setBackground(new Color(255, 255, 255));
+    	button.setBorder(null);
+    	button.setFont(new Font("Dialog", Font.LAYOUT_LEFT_TO_RIGHT, 16));
+    	
+    	LineBorder lineBorder = new LineBorder(new Color(230, 230, 230), 1, true);
+        button.setBorder(lineBorder);
+    }
+    
+    private void buttonOperationsStyle(JButton button) {
+    	button.setBackground(new Color(249, 249, 249));
+    	button.setBorder(null);
+    	button.setFont(new Font("Dialog", Font.LAYOUT_LEFT_TO_RIGHT, 17));
+    	
+    	LineBorder lineBorder = new LineBorder(new Color(225, 225, 225), 1, true);
+        button.setBorder(lineBorder);
+    }
+    
+    private void buttonGeneralStyle(JButton button) {
+    	button.setBackground(new Color(249, 249, 249));
+    	button.setBorder(null);
+    	if(button.getText() != "🖩")
+    		button.setFont(new Font("Dialog", Font.LAYOUT_LEFT_TO_RIGHT, 13));
+    	
+    	LineBorder lineBorder = new LineBorder(new Color(225, 225, 225), 1, true);
+        button.setBorder(lineBorder);
+    }
+    
+    public void addNumber(ActionEvent e) {
+    	this.clearResultField();
+    	
+        JButton btnSelected = (JButton) e.getSource();
+        
+        String _return = this.calculadora.concat(btnSelected.getText(), this.resultadoField.getText());
+        
+        this.resultadoField.setText(_return);
+    }
+    
+    public void addOperation(ActionEvent e) {
+    	this.clearResultField();
+    	
+    	JButton btnSelected = (JButton) e.getSource();
+    	
+    	if(this.resultadoField.getText().isEmpty()) {
+    		JOptionPane.showMessageDialog(null, "Primeiro insira um número para esta operação");
+    		return;
+    	}
+    		
+    	String _return = this.calculadora.addOperacao(btnSelected.getText(), this.resultadoField.getText());
+        this.resultadoField.setText(_return);
+    }
+    
+    public void clear(ActionEvent e) {
+        this.resultadoField.setText("");
+    }
+    
+    public void cancelEntry(ActionEvent e) {
+    	this.clearResultField();
+    	
+    	String rField = this.resultadoField.getText();
+    	
+    	if(!this.resultadoField.getText().isEmpty()) {
+    		this.resultadoField.setText(rField.substring(0, rField.length() - 1));
+    	}
+    }
+    
+    public void addPiValue(ActionEvent e) {
+    	this.clearResultField();
+    	
+    	String rField = this.resultadoField.getText();
+    	
+        this.resultadoField.setText(this.calculadora.addPi(rField));
+    }
+    
+    public void scienceCalculator(ActionEvent e) {
+    	JOptionPane.showMessageDialog(null, "A função de calculadora científica será \nimplementada na versão 2.0 do software");
+    }
+    
+    public void addPonto(ActionEvent e) {
+    	this.clearResultField();
+    	
+    	if(this.resultadoField.getText().isEmpty()) {
+    		JOptionPane.showMessageDialog(null, "Para inserir casas decimais, primeiro insira um número");
+    		return;
+    	}
+    	
+    	String _return = this.calculadora.addPonto(this.resultadoField.getText());
+        this.resultadoField.setText(_return);
+    }
+    
+    public void calcularResultado(ActionEvent e) {
+    	String equacao = this.resultadoField.getText(), retorno;
+    	
+    	if(equacao.isEmpty() || this.resultset) return;
+    	
+    	retorno = this.calculadora.calcularResultado(equacao, usuario.idUser, this.baseBuscaDados);
+    	
+    	if(retorno != "erro") {
+    		this.resultset = true;
+    		this.resultadoField.setText(retorno);
+    	}else {
+    		JOptionPane.showMessageDialog(null, "Erro ao gravar no banco de dados");
+    	}
+    }
+    
+    private void clearResultField() {
+    	if(this.resultset) {
+	    	this.resultset = false;
+	    	this.resultadoField.setText("");
+    	}
+    }
+}

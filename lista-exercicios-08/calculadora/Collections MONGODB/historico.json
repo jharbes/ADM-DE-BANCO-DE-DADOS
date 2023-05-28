@@ -1,0 +1,36 @@
+{
+    "_id" : ObjectId("646e53f56f36fd8d2c0463d4"),
+    "idHistorico" : NumberInt(1),
+    "operacao" : "5+3+4+8+1",
+    "idUser" : NumberInt(1)
+}
+{
+    "_id" : ObjectId("646e541a6f36fd8d2c0463d5"),
+    "idHistorico" : NumberInt(2),
+    "operacao" : "5+3+1",
+    "idUser" : NumberInt(1)
+}
+{
+    "_id" : ObjectId("646e541a6f36fd8d2c0463d6"),
+    "idHistorico" : NumberInt(3),
+    "operacao" : "5+1",
+    "idUser" : NumberInt(1)
+}
+{
+    "_id" : ObjectId("646ed9df10226029fbfcd870"),
+    "idHistorico" : NumberInt(4),
+    "operacao" : "5+3",
+    "idUser" : NumberInt(1)
+}
+{
+    "_id" : ObjectId("646f5b122725c16ab6cbde38"),
+    "idHistorico" : NumberInt(6),
+    "operacao" : "3.14+3*9",
+    "idUser" : NumberInt(1)
+}
+{
+    "_id" : ObjectId("646f5b412725c16ab6cbde3c"),
+    "idHistorico" : NumberInt(7),
+    "operacao" : "7*8",
+    "idUser" : NumberInt(1)
+}

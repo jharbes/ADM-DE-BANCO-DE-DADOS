@@ -1,0 +1,40 @@
+package DAOMONGODB;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import org.bson.Document;
+import org.bson.conversions.Bson;
+
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Indexes;
+
+public class CalculadoraDAOMONGODB {
+	private static MongoCollection<Document> _historico;
+
+	public static boolean inserirHistorico(String equacao, int idUser) {
+		try {
+			_historico = ConexaoDAOMONGODB.getConnection().getCollection("historico");
+			
+			JOptionPane.showMessageDialog(null, "aqui");
+			
+			Bson sort = Aggregates.sort(Indexes.descending("+1", "idHistorico"));
+			Document found = (Document) _historico.find(new Document("idUser", idUser)).sort(sort);
+			
+			JOptionPane.showMessageDialog(null, found);
+			
+			if(found != null) {
+				
+			}
+			
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+}

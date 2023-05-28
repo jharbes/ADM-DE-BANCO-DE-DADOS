@@ -1,0 +1,11 @@
+package DAOMONGODB;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+
+public class Conexao {
+	DB baseDeDados;
+	DBCollection colecao;
+	BasicDBObject document = new BasicDBObject();
+}

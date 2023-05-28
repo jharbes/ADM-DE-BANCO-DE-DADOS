@@ -1,0 +1,7 @@
+package DAOMONGODB;
+
+public class Conexao {
+	DB baseDeDados;
+	DBCollection colecao;
+	BasicDBObject document = new BasicDBObject;
+}

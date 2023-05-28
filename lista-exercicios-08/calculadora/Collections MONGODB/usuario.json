@@ -1,0 +1,7 @@
+{
+    "_id" : ObjectId("646e29eddc0a53429e32e040"),
+    "email" : "matheus@mongodb.com",
+    "idUser" : NumberInt(1),
+    "nome" : "Matheus Mello da Silva (MongoDB)",
+    "telefone" : "(21) 9 9856-3652"
+}

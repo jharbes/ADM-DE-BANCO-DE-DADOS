@@ -1,0 +1,119 @@
+package fragments;
+
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.*;
+
+import model.Usuario;
+import view.CalculadoraView;
+
+@SuppressWarnings("serial")
+public class Historico_fragment extends javax.swing.JInternalFrame{
+	
+	private javax.swing.JLabel lblHistorico;
+	
+	private JButton btnExcluir;
+	
+	private Usuario usuario;
+	
+	private JTable tabela;
+	
+	private JScrollPane barraRolagem;
+	
+	private JPanel panel;
+	
+	public CalculadoraView calculadoraView;
+	
+	public Historico_fragment(CalculadoraView calculadoraView) {
+		this.calculadoraView = calculadoraView;
+    	this.build();
+    	this.events();
+    }
+
+	private void build() {
+		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
+        setBorder(null);
+        
+        usuario = Usuario.buscarDados(1);
+        
+        String [] colunas = {"OPERAÇÃO","Identificador"};
+        String [][] listaOperacoes =  Usuario.buscarHistorico(usuario);
+        
+        tabela = new JTable(listaOperacoes, colunas);
+        barraRolagem = new JScrollPane(tabela);
+        barraRolagem.setPreferredSize(new Dimension(280, 350));
+        
+        
+        lblHistorico = new javax.swing.JLabel("HISTÓRICO");
+        lblHistorico.setPreferredSize(new Dimension(285, 15));
+        lblHistorico.setHorizontalAlignment(SwingConstants.CENTER);
+		
+        btnExcluir = new JButton("Excluir");
+        
+		panel = new JPanel();
+		
+		panel.add(lblHistorico);
+		panel.add(barraRolagem);
+		panel.add(btnExcluir);
+		
+		add(panel);
+        
+        setSize(285, 430);
+        
+        setVisible(true);
+	}
+	
+	private void events() {
+		this.btnExcluir.addActionListener(this::excluirHistorico);
+	}
+	
+	public void excluirHistorico(ActionEvent e) {
+    	int linha = this.tabela.getSelectedRow();
+    	String idHistorico = (String) this.tabela.getValueAt(linha, 1);
+    	
+    	System.out.println(idHistorico);
+    
+    	calculadoraView.Historico(ActionEvent e);
+    	
+    	
+    	/*System.out.println(this.tabela.getSelectedRow());
+    	
+    	this.tabela.removeRowSelectionInterval(0, this.tabela.getRowCount()-1);
+    	
+    	System.out.println(this.tabela.getSelectedRow());*/
+    	
+    	
+    	if(Usuario.excluirHistorico(idHistorico)) {
+    		JOptionPane.showMessageDialog(null, "Operação excluída com sucesso");
+    		
+    		this.panel.remove(barraRolagem);
+        	this.panel.remove(btnExcluir);
+        	
+        	this.setVisible(false);
+        	this.setVisible(true);
+        	
+        	String [] colunas2 = {"OPERAÇÃO","Identificador"};
+            String [][] listaOperacoes2 =  Usuario.buscarHistorico(usuario);
+            
+            JTable tabela2 = new JTable(listaOperacoes2, colunas2);
+            JScrollPane barraRolagem2 = new JScrollPane(tabela2);
+            barraRolagem2.setPreferredSize(new Dimension(280, 350));
+            
+            JButton btnExcluir2 = new JButton("Excluir");
+            btnExcluir2.addActionListener(this::excluirHistorico);
+        
+        	this.panel.add(barraRolagem2);
+        	this.panel.add(btnExcluir2);
+        	
+        	this.tabela = tabela2;
+    	}else
+    		JOptionPane.showMessageDialog(null, "Erro ao excluir operação");
+    }
+}

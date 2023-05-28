@@ -1,0 +1,78 @@
+package DAOMONGODB;
+
+import model.Usuario;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import org.bson.Document;
+import org.bson.conversions.Bson;
+
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+
+public class UsuarioDAOMONGODB {
+	private static MongoCollection<Document> _users;
+	
+	public static boolean salvarDados(Usuario usuario) {
+
+		try {
+			_users = ConexaoDAOMONGODB.getConnection().getCollection("usuario");
+			
+			Document found = _users.find(new Document("idUser", usuario.idUser)).first();
+			
+			if(found != null) {
+				List<Bson> updateDocument = new ArrayList<Bson>();
+				updateDocument.add(new Document("$set", new Document("email", usuario.email)));
+				updateDocument.add(new Document("$set", new Document("nome", usuario.nome)));
+				updateDocument.add(new Document("$set", new Document("telefone", usuario.telefone)));
+				_users.updateOne(found, updateDocument);
+				
+				ConexaoDAOMONGODB.closeConnection();
+				return true;
+			}
+			
+			ConexaoDAOMONGODB.closeConnection();
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			ConexaoDAOMONGODB.closeConnection();
+			return false;
+		}
+	}
+
+	public static Document buscarDados(int idUser) {
+		try {
+			_users = ConexaoDAOMONGODB.getConnection().getCollection("usuario");
+			
+			Document _return = _users.find(new Document("idUser", idUser)).first();
+			ConexaoDAOMONGODB.closeConnection();
+			
+			return _return;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static Document buscarHistorico(int idUser) {
+		try {
+			_users = ConexaoDAOMONGODB.getConnection().getCollection("historico");
+			
+			MongoCursor<Document> cursor = _users.find().iterator();
+			
+			while(cursor.hasNext()) {
+				JOptionPane.showMessageDialog(null, cursor.next());
+			}
+			
+			return (Document) _users.find(new Document("idUser", idUser));
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			return null;
+		}
+	}
+}

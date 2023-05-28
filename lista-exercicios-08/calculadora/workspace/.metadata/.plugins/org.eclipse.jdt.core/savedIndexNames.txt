@@ -1,0 +1,6 @@
+INDEX VERSION 1.131+C:\Users\mathe\Documents\Faculdade\6º período\Administração de banco de dados\workspace\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+39695397.index
+3693121479.index
+4080863982.index
+3501714628.index

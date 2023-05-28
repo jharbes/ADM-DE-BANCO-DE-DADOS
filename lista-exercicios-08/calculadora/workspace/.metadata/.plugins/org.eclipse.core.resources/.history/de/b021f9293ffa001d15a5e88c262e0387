@@ -1,0 +1,23 @@
+package DAOMONGODB;
+
+import javax.swing.JOptionPane;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.Mongo;
+
+public class Conexao {
+	DB baseDeDados;
+	DBCollection colecao;
+	BasicDBObject document = new BasicDBObject();
+	
+	public Conexao() {
+		JOptionPane.showMessageDialog(null, "foi");
+		Mongo m = new Mongo("localhost", 27017);
+		
+		baseDeDados = m.getDB("calculadora");
+		
+		JOptionPane.showMessageDialog(null, "Conexão: "+m);
+	}
+}
