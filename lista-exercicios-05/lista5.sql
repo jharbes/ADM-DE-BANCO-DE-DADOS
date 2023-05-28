@@ -109,6 +109,7 @@ CREATE table gasto_percentual_func AS
 	SELECT 	id_func,
 			nome_func,
 			salario_ano,
+			id_departamento,
 			departamento,
 			gasto_ano_dept,
 			custo_func_ano.ano,
@@ -156,18 +157,22 @@ group by id_func;
 
 DELIMITER $$
 
-CREATE PROCEDURE consultar_departamento (IN p_dept_no CHAR(4))
+CREATE PROCEDURE ex03 (IN p_dept_no CHAR(4))
 BEGIN
-	SELECT 	id_departamento,
-			departamento,
-			ano,
-			COUNT(id_func) AS qtd_func,
-			gasto_ano_dept AS gasto_dept,
-			MAX(salario_ano) AS maior_salario
+	SELECT 	
+		gasto_percentual_func.id_departamento,
+		gasto_percentual_func.departamento,
+		gasto_percentual_func.ano,
+		COUNT(id_func) AS qtd_func,
+		gasto_ano_dept AS gasto_dept,
+		MAX(salario_ano) AS maior_salario
 	FROM gasto_percentual_func
 		WHERE p_dept_no = id_departamento 
 	GROUP BY 1, 3
 	ORDER BY 3 ASC;
-END $$
+END $$
 
-DELIMITER ;
+DELIMITER ;
+
+
+call ex03('d001');
