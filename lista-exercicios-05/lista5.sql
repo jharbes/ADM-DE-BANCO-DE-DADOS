@@ -2,12 +2,15 @@
 
 -- item 1
 
+-- gasto anual departamento
 
-select d.dept_name as Departamento, concat('US$ ', format(sum((s.salary * 12)), 2, 'de_DE')) as custoAnualFuncionarios from employees as e
+create view item1 AS
+select d.dept_name as departamento, concat('US$ ', format(sum((s.salary * 1)), 2, 'de_DE')) as custo_anual_funcionarios from employees as e
 natural join dept_emp as de
 natural join departments as d
 inner join salaries as s on (s.emp_no = e.emp_no)
-group by Departamento;
+where s.to_date='9999-01-01'
+group by departamento;
 
 /*
 resultado:
@@ -47,6 +50,7 @@ US$ 406.563.600.828,00
 
 -- item 2
 
+-- custo anual funcionario
 
 select concat(e.first_name, ' ', e.last_name) as Nome, format(max(s.salary) * 12, 2, 'de_DE') as Custo_anual from employees as e
 natural join salaries as s
