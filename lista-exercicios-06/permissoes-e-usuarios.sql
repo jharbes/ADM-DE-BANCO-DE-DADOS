@@ -1,18 +1,18 @@
 /*
 ### Criando usuário para BOB e seu time
 */
--- para facilitar todas as senhas seram 12434
+-- senha default 123456
 
-CREATE USER 'Bob' IDENTIFIED BY '1234';
-CREATE USER 'Betelgeuse' IDENTIFIED BY '1234';
-CREATE USER 'Pitty' IDENTIFIED BY '1234';
-CREATE USER 'Kelly' IDENTIFIED BY '1234';
+CREATE USER 'Bob' IDENTIFIED BY '123456';
+CREATE USER 'Betelgeuse' IDENTIFIED BY '123456';
+CREATE USER 'Pitty' IDENTIFIED BY '123456';
+CREATE USER 'Kelly' IDENTIFIED BY '123456';
 
 -- acessos de BOB
 
+REVOKE CREATE ON *.* FROM 'Bob';
 GRANT ALL ON pessoas.* TO 'Bob' WITH GRANT OPTION;
 GRANT SELECT ON endereco.* TO 'Bob' WITH GRANT OPTION;
-REVOKE CREATE FROM 'Bob';
 
 -- acessos de Betelgeuse
 
@@ -34,9 +34,9 @@ GRANT CREATE VIEW TO 'Kelly';
 ### Criando usuário para Alice e seu time
 */
 
-CREATE USER 'Alice' IDENTIFIED BY '1234';
-CREATE USER 'Thiago' IDENTIFIED BY '1234';
-CREATE USER 'Benedita' IDENTIFIED BY '1234';
+CREATE USER 'Alice' IDENTIFIED BY '123456';
+CREATE USER 'Thiago' IDENTIFIED BY '123456';
+CREATE USER 'Benedita' IDENTIFIED BY '123456';
 
 -- acessos de Alice
 
@@ -59,10 +59,10 @@ GRANT SELECT ON pessoas.contato TO 'Benedita';
 ### Criando usuário para Nina e seu time
 */
 
-CREATE USER 'Nina' IDENTIFIED BY '1234';
-CREATE USER 'Kyara' IDENTIFIED BY '1234';
-CREATE USER 'Ganimedes' IDENTIFIED BY '1234';
-CREATE USER 'Folo' IDENTIFIED BY '1234';
+CREATE USER 'Nina' IDENTIFIED BY '123456';
+CREATE USER 'Kyara' IDENTIFIED BY '123456';
+CREATE USER 'Ganimedes' IDENTIFIED BY '123456';
+CREATE USER 'Folo' IDENTIFIED BY '123456';
 
 -- acessos de Nina
 
