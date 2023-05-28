@@ -15,35 +15,30 @@ group by departamento;
 /*
 resultado:
 
-Departamento 
-custoAnualFuncionarios 
 
-Customer Service
-US$ 133.546.637.664,00
+departamento	
+custo_anual_funcionarios	
 
 Development
-US$ 488.786.087.412,00
-
-Finance
-US$ 117.283.690.584,00
-
-Human Resources
-US$ 94.217.930.628,00
-
-Marketing
-US$ 138.850.702.260,00
-
-Production
-US$ 421.114.528.332,00
-
-Quality Management
-US$ 109.408.724.748,00
-
-Research
-US$ 121.435.478.700,00
-
+US$ 4.627.787.365,00
 Sales
-US$ 406.563.600.828,00
+US$ 3.731.370.677,00
+Production
+US$ 3.982.729.442,00
+Human Resources
+US$ 909.717.009,00
+Research
+US$ 1.148.334.609,00
+Quality Management
+US$ 1.045.459.198,00
+Marketing
+US$ 1.300.398.678,00
+Customer Service
+US$ 1.270.982.348,00
+Finance
+US$ 1.089.231.961,00
+
+
 */
 
 
@@ -52,10 +47,11 @@ US$ 406.563.600.828,00
 
 -- custo anual funcionario
 
-select concat(e.first_name, ' ', e.last_name) as Nome, format(max(s.salary) * 12, 2, 'de_DE') as Custo_anual from employees as e
+create view item2 as
+select concat(e.first_name, ' ', e.last_name) as nome, concat('US$ ',format(max(s.salary) * 1, 2, 'de_DE')) as custo_anual from employees as e
 natural join salaries as s
 inner join dept_emp as de on (e.emp_no = de.emp_no)
-group by Nome
+group by nome;
 
 
 -- item 3
