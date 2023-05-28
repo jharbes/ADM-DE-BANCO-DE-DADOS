@@ -118,13 +118,13 @@ INNER JOIN gasto_anual_dept ON ((custo_func_ano.id_departamento = gasto_anual_de
 
 
 CREATE VIEW item_4b AS
-	SELECT 	id_func,
-			nome_func,
-			salario_ano,
-			departamento,
-			gasto_ano_dept,
-			custo_func_ano.ano,
-			FORMAT((salario_ano/gasto_ano_dept)*100,3) AS gasto_perc_do_dept
+SELECT 	id_func,
+		nome_func,
+		concat('US$ ',format(salario_ano,2,'de_DE')) as salario_ano,
+		departamento,
+		concat('US$ ',format(gasto_ano_dept,2,'de_DE')) as gasto_ano_dept,
+		custo_func_ano.ano,
+		FORMAT((salario_ano/gasto_ano_dept)*100,3) AS gasto_perc_do_dept
 FROM custo_func_ano
 INNER JOIN gasto_anual_dept ON ((custo_func_ano.id_departamento = gasto_anual_dept.id_departamento) AND (custo_func_ano.ano = gasto_anual_dept.ano));
 
@@ -132,18 +132,22 @@ INNER JOIN gasto_anual_dept ON ((custo_func_ano.id_departamento = gasto_anual_de
 
 -- item 5
 
-
+create VIEW item5 as
 SELECT *
-FROM employees.gasto_percentual_func
-	WHERE (0.01 >= gasto_perc_do_dept <= 0.1);
+FROM employees.gasto_percentual_func WHERE
+(0.01>=gasto_perc_do_dept) and (gasto_perc_do_dept<=0.1)
+group by id_func;
+
+
 
 
 -- item 6
 
-
+create view item6 as
 SELECT *
 FROM employees.gasto_percentual_func
-	WHERE (gasto_perc_do_dept > 0.1);
+WHERE (gasto_perc_do_dept>0.1)
+group by id_func;
 
 
 
